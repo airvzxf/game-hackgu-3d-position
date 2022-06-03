@@ -23,7 +23,7 @@ if __name__ == '__main__':
         },
         2: {
             'marker': 's',
-            'color': '#B21111',
+            'color': '#F0B21111',
             'type': 'Vehicle',
         },
         3: {
@@ -33,32 +33,32 @@ if __name__ == '__main__':
         },
         4: {
             'marker': 'P',
-            'color': '#00FF5566',
+            'color': '#F0FF5566',
             'type': 'Kiosks',
         },
         5: {
             'marker': 'd',
-            'color': '#0035B235',
+            'color': '#F035B235',
             'type': 'Monsters',
         },
         6: {
             'marker': '^',
-            'color': '#0088FF66',
+            'color': '#F088FF66',
             'type': 'Places',
         },
         7: {
             'marker': '+',
-            'color': '#00F1C232',
+            'color': '#F0F1C232',
             'type': 'Chims',
         },
         8: {
             'marker': 'x',
-            'color': '#00FFFF00',
+            'color': '#F0FFFF00',
             'type': 'Type 8',
         },
         9: {
             'marker': '2',
-            'color': '#0000FFFF',
+            'color': '#F000FFFF',
             'type': 'Type 9',
         },
     }
