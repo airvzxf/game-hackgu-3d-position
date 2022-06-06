@@ -82,7 +82,7 @@ class Vol1:
                 element_init = array_pointer + 8 * 3
                 next_array_long = memory.read_longlong(next_array)
                 element_init_long = memory.read_longlong(element_init)
-                array_pointer += 0x80
+                array_pointer = next_array_long
 
                 if element_init_long != 0:
                     found.append(element_init_long)
@@ -122,7 +122,7 @@ class Vol1:
             cls.objects_information = []
             for object_address in cls._object_addresses:
                 type_id = read_int(GameProcess.process_handle(), object_address + cls.offset_type_id)
-                if type_id < 1:
+                if type_id < 1 or type_id > 9:
                     print(f'Warning! Type id: {type_id}')
                     continue
                 try:

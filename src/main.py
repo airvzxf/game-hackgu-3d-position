@@ -22,43 +22,43 @@ if __name__ == '__main__':
             'type': 'Party Player',
         },
         2: {
-            'marker': 's',
-            'color': '#F0B21111',
+            'marker': '|',
+            'color': '#B2111166',
             'type': 'Vehicle',
         },
         3: {
             'marker': '.',
-            'color': '#F000D066',
+            'color': '#FF00D066',
             'type': 'NPCs',
         },
         4: {
             'marker': 'P',
-            'color': '#F0FF5566',
+            'color': '#77F0A366',
             'type': 'Kiosks',
         },
         5: {
             'marker': 'd',
-            'color': '#F035B235',
+            'color': '#00FF5566',
             'type': 'Monsters',
         },
         6: {
             'marker': '^',
-            'color': '#F088FF66',
+            'color': '#0088FF66',
             'type': 'Places',
         },
         7: {
             'marker': '+',
-            'color': '#F0F1C232',
-            'type': 'Chims',
+            'color': '#F1C23266',
+            'type': 'Type 7',
         },
         8: {
             'marker': 'x',
-            'color': '#F0FFFF00',
-            'type': 'Type 8',
+            'color': '#FFFF0066',
+            'type': 'Chims',
         },
         9: {
             'marker': '2',
-            'color': '#F000FFFF',
+            'color': '#00FFFF66',
             'type': 'Type 9',
         },
     }
@@ -71,7 +71,8 @@ if __name__ == '__main__':
         '-COOH', 'Mile', 'Moonlight Dance', 'Alice', 'Pen Pen', '1/2', 'meruru', 'Sapphire', 'Pale', 'Nuada', 'Tanu',
         'Vanguard', 'Sky', 'TomCat', 'Sagittarius', 'GATES', 'b1u3', 'Watson', 'Tiphereth', 'Ingrid', 'Inui', 'Mikatan',
         'Dimitri', 'Ninjato', 'angel hair', 'Aralagi', 'Chobi', 'Mihirogi', 'Nagi', 'Abcinian', 'Barson', 'Rider Chyob',
-        'IGA', 'tres', 'MAXBURST', 'Lonely Wolf', ''
+        'IGA', 'tres', 'MAXBURST', 'Lonely Wolf', 'William=G', 'Ryotaku', 'Amber', 'Battery Tomekichi', 'Fang',
+        'Evil Woman', 'Chamee', 'Cecile', 'Suzuki Pig', 'Jade', 'Quasar', 'Towa', 'Lieutenant Okada'
     )
 
     Vol1.GameObjects()
@@ -123,15 +124,11 @@ if __name__ == '__main__':
             plots_by_type[type_id]['z'].append(object_information.get('z_position'))
             plots_by_type[type_id]['name'].append(object_information.get('name'))
 
-        if axis_1_1.has_data():
-            axis_1_1.clear()
-
-        if axis_1_2.has_data():
-            axis_1_2.clear()
-
+        axis_1_1.clear()
         axis_1_1.set_title('X, Y')
         axis_1_1.set_xlabel('X')
         axis_1_1.set_ylabel('Y')
+        axis_1_2.clear()
         axis_1_2.set_title('X, Z')
         axis_1_2.set_xlabel('X')
         axis_1_2.set_ylabel('Z')
@@ -140,9 +137,10 @@ if __name__ == '__main__':
             plot = plots_by_type[key]
             axis_1_1.scatter(plot['x'], plot['y'], s=200, c=plot['color'], marker=plot['marker'], label=plot['label'])
             axis_1_2.scatter(plot['x'], plot['z'], s=200, c=plot['color'], marker=plot['marker'], label=plot['label'])
-            for i, txt in enumerate(plot['name']):
-                axis_1_1.annotate(txt, (plot['x'][i], plot['y'][i]))
-        axis_1_2.legend(bbox_to_anchor=(1, 0.5), loc='center left', title='Objects in the World')
+            for i, name in enumerate(plot['name']):
+                axis_1_1.annotate(name, (plot['x'][i], plot['y'][i]))
+                axis_1_2.annotate(name, (plot['x'][i], plot['z'][i]))
+        axis_1_1.legend(bbox_to_anchor=(0, 0.5), loc='center right', title='Objects in the World')
 
         cursor(hover=2)
         figure.canvas.draw_idle()
