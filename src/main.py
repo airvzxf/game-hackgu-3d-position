@@ -8,7 +8,6 @@ from threading import Thread
 from time import sleep
 
 from matplotlib.pyplot import pause, subplots
-from mplcursors import cursor
 
 from core.vol1.vol_1 import Vol1
 
@@ -59,7 +58,7 @@ if __name__ == '__main__':
         9: {
             'marker': '2',
             'color': '#00FFFF66',
-            'type': 'Type 9',
+            'type': 'Cinematic',
         },
     }
 
@@ -72,12 +71,16 @@ if __name__ == '__main__':
         'Vanguard', 'Sky', 'TomCat', 'Sagittarius', 'GATES', 'b1u3', 'Watson', 'Tiphereth', 'Ingrid', 'Inui', 'Mikatan',
         'Dimitri', 'Ninjato', 'angel hair', 'Aralagi', 'Chobi', 'Mihirogi', 'Nagi', 'Abcinian', 'Barson', 'Rider Chyob',
         'IGA', 'tres', 'MAXBURST', 'Lonely Wolf', 'William=G', 'Ryotaku', 'Amber', 'Battery Tomekichi', 'Fang',
-        'Evil Woman', 'Chamee', 'Cecile', 'Suzuki Pig', 'Jade', 'Quasar', 'Towa', 'Lieutenant Okada'
+        'Evil Woman', 'Chamee', 'Cecile', 'Suzuki Pig', 'Jade', 'Quasar', 'Towa', 'Lieutenant Okada', 'Phelix', 'Jill',
+        'Osamu', 'Agnes', 'Telese', 'Seisaku', 'Ougai', 'Rintaro', 'Kanko', 'Lettuce Taro', 'EXILE', 'Ayuo',
+        'Dragonfly', 'Flamberge', 'Pokuri', 'Yoshio', 'Rental Daughter', 'Ishikari Cat', 'Menou', 'Hiira', 'Pochi',
+        'Yatsufusa', 'Shirochan', 'Eteman', 'Chrysanthemum', 'Heart in Brocade', 'Yoko', 'Madame Insane', 'Onyx',
+        'Punisher Mitch', 'Aleneor', 'Joanna', '', '', '', '', '', '', '', '', '', '', '', '', ''
     )
 
     Vol1.GameObjects()
 
-    figure, (axis_1_1, axis_1_2) = subplots(nrows=1, ncols=2, constrained_layout=False)
+    figure, (axis_1_1, axis_1_2, axis_1_3) = subplots(nrows=1, ncols=3, constrained_layout=False)
     figure.suptitle('HackGU')
 
     p = Thread(target=Vol1.GameObjects.object_addresses())
@@ -132,6 +135,10 @@ if __name__ == '__main__':
         axis_1_2.set_title('X, Z')
         axis_1_2.set_xlabel('X')
         axis_1_2.set_ylabel('Z')
+        axis_1_3.clear()
+        axis_1_3.set_title('Game Information')
+        axis_1_3.set_xlabel('X')
+        axis_1_3.set_ylabel('Y')
 
         for key in plots_by_type:
             plot = plots_by_type[key]
@@ -142,7 +149,18 @@ if __name__ == '__main__':
                 axis_1_2.annotate(name, (plot['x'][i], plot['z'][i]))
         axis_1_1.legend(bbox_to_anchor=(0, 0.5), loc='center right', title='Objects in the World')
 
-        cursor(hover=2)
+        dungeon_info = Vol1.Dungeon()
+        axis_1_3.text(0.1, 0.90, 'Dungeon', fontsize=20)
+        axis_1_3.text(0.1, 0.85, f'Enemy Parties: {dungeon_info.enemy_party}'
+                                 f' | {hex(dungeon_info.enemy_party_address)}', fontsize=12)
+        axis_1_3.text(0.1, 0.80, f'Surprise Attack: {dungeon_info.surprise_attack}'
+                                 f' | {hex(dungeon_info.surprise_attack_address)}', fontsize=12)
+        axis_1_3.text(0.1, 0.75, f'Destroyed objects: {dungeon_info.destroyed_objects}'
+                                 f'/{dungeon_info.max_destroyed_objects}'
+                                 f' | {hex(dungeon_info.destroyed_objects_address)}', fontsize=12)
+        axis_1_3.text(0.1, 0.70, f'Chim spheres: {dungeon_info.chim_spheres}'
+                                 f' | {hex(dungeon_info.chim_spheres_address)}', fontsize=12)
+
         figure.canvas.draw_idle()
         pause(0.1)
         # exit(0)

@@ -4,7 +4,8 @@ Contain the information of the Offsets.
 """
 from struct import pack
 
-from pymem.memory import read_string, read_int, read_float
+from pymem.exception import WinAPIError
+from pymem.memory import read_string, read_int, read_float, read_longlong
 from pymem.pattern import pattern_scan_module, scan_pattern_page
 from pymem.process import module_from_name
 from pymem.ressources.structure import MODULEINFO
@@ -144,3 +145,48 @@ class Vol1:
             cls.objects_information = sorted(cls.objects_information, key=lambda x: (x['type_id'], x['name']))
 
             return True
+
+    class Dungeon:
+        """
+        The information about the dungeon.
+        """
+        enemy_party = 0
+        enemy_party_address = 0
+        surprise_attack = 0
+        surprise_attack_address = 0
+        destroyed_objects = 0
+        destroyed_objects_address = 0
+        chim_spheres = 0
+        chim_spheres_address = 0
+        max_destroyed_objects = 0
+        max_destroyed_objects_address = 0
+
+        def __init__(self):
+            base_pointer_dungeon = Vol1.dll_module().lpBaseOfDll + 0xF84C10
+            base_address_dungeon = read_longlong(GameProcess.process_handle(), base_pointer_dungeon)
+
+            # print('=== Loop ===')
+            # for offset in range(0x15300, 0x15400,  4):
+            #     address = base_address_dungeon + offset
+            #     value = read_int(GameProcess.process_handle(), address)
+            #     print(f'{hex(address)} [{hex(offset)}]: {value}')
+            # exit(-1)
+
+            self.enemy_party_address = base_address_dungeon + 0x15360
+            # print(hex(self.enemy_party_address))
+            try:
+                self.enemy_party = read_int(GameProcess.process_handle(), self.enemy_party_address)
+            except WinAPIError:
+                return
+
+            self.surprise_attack_address = base_address_dungeon + 0x15364
+            self.surprise_attack = read_int(GameProcess.process_handle(), self.surprise_attack_address)
+
+            self.max_destroyed_objects_address = base_address_dungeon + 0x15368
+            self.max_destroyed_objects = read_int(GameProcess.process_handle(), self.max_destroyed_objects_address)
+
+            self.destroyed_objects_address = base_address_dungeon + 0x1536C
+            self.destroyed_objects = read_int(GameProcess.process_handle(), self.destroyed_objects_address)
+
+            self.chim_spheres_address = base_address_dungeon + 0x15370
+            self.chim_spheres = read_int(GameProcess.process_handle(), self.chim_spheres_address)
